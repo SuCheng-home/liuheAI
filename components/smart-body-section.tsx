@@ -35,7 +35,7 @@ export default function SmartBodySection() {
   return (
     <section
       id="smart-body"
-      className="relative flex min-h-screen snap-start snap-always items-center overflow-hidden py-12 lg:py-16"
+      className="relative overflow-hidden py-16 lg:py-20"
     >
       {/* 背景层 */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-emerald-50/30 to-white" />
