@@ -7,9 +7,9 @@ import { Badge } from "@/components/ui/badge"
 export default function AgentCard({ agent }: { agent: Agent }) {
   return (
     <Link href={`/agents/${agent.id}`} className="group block h-full">
-      <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-blue-300/60 hover:shadow-2xl hover:shadow-blue-500/10">
+      <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200/60 bg-white/80 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:border-emerald-300/60 hover:shadow-2xl hover:shadow-emerald-500/10">
         {/* Cover */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-blue-100 to-cyan-100">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-gradient-to-br from-emerald-100 to-teal-100">
           <Image
             src={agent.cover || "/placeholder.svg"}
             alt={agent.title}
@@ -17,18 +17,18 @@ export default function AgentCard({ agent }: { agent: Agent }) {
             className="object-cover transition-transform duration-700 group-hover:scale-110"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/30 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-stone-900/30 via-transparent to-transparent" />
 
           {/* Category badge */}
           <div className="absolute left-3 top-3">
-            <Badge className="border-0 bg-white/90 text-xs font-medium text-slate-700 backdrop-blur-sm hover:bg-white/95">
+            <Badge className="border-0 bg-white/90 text-xs font-medium text-stone-700 backdrop-blur-sm hover:bg-white/95">
               {agent.category}
             </Badge>
           </div>
 
           {/* Stage badge */}
           <div className="absolute right-3 top-3">
-            <Badge className="border-0 bg-gradient-to-r from-blue-500/90 to-cyan-500/90 text-xs font-medium text-white backdrop-blur-sm">
+            <Badge className="border-0 bg-gradient-to-r from-emerald-500/90 to-teal-500/90 text-xs font-medium text-white backdrop-blur-sm">
               {agent.stage}
             </Badge>
           </div>
@@ -37,22 +37,22 @@ export default function AgentCard({ agent }: { agent: Agent }) {
         {/* Content */}
         <div className="flex flex-1 flex-col gap-3 p-5">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 text-xl">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 text-xl">
               {agent.icon}
             </div>
             <div className="min-w-0 flex-1">
-              <h3 className="truncate text-base font-bold text-slate-900 transition-colors group-hover:text-blue-600">
+              <h3 className="truncate text-base font-bold text-stone-900 transition-colors group-hover:text-emerald-600">
                 {agent.title}
               </h3>
-              <div className="mt-0.5 flex items-center gap-1 text-xs text-slate-500">
+              <div className="mt-0.5 flex items-center gap-1 text-xs text-stone-500">
                 <span className="truncate">{agent.author}</span>
-                <span className="text-slate-300">·</span>
+                <span className="text-stone-300">·</span>
                 <span className="truncate">{agent.school}</span>
               </div>
             </div>
           </div>
 
-          <p className="line-clamp-2 text-sm leading-relaxed text-slate-600">
+          <p className="line-clamp-2 text-sm leading-relaxed text-stone-600">
             {agent.description}
           </p>
 
@@ -63,7 +63,7 @@ export default function AgentCard({ agent }: { agent: Agent }) {
                 <Badge
                   key={tag}
                   variant="outline"
-                  className="border-blue-100 bg-blue-50/60 text-[10px] font-medium text-blue-600"
+                  className="border-emerald-100 bg-emerald-50/60 text-[10px] font-medium text-emerald-600"
                 >
                   {tag}
                 </Badge>
@@ -72,11 +72,11 @@ export default function AgentCard({ agent }: { agent: Agent }) {
           )}
 
           {/* Stats */}
-          <div className="mt-auto flex items-center justify-between border-t border-slate-100 pt-3">
-            <div className="flex items-center gap-3 text-xs text-slate-500">
+          <div className="mt-auto flex items-center justify-between border-t border-stone-100 pt-3">
+            <div className="flex items-center gap-3 text-xs text-stone-500">
               <span className="flex items-center gap-1">
                 <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                <span className="font-medium text-slate-700">
+                <span className="font-medium text-stone-700">
                   {agent.rating.toFixed(1)}
                 </span>
               </span>
@@ -89,7 +89,7 @@ export default function AgentCard({ agent }: { agent: Agent }) {
                 {agent.usageCount.toLocaleString()}
               </span>
             </div>
-            <span className="flex items-center gap-1 text-xs text-slate-400">
+            <span className="flex items-center gap-1 text-xs text-stone-400">
               <Calendar className="h-3 w-3" />
               {agent.publishDate}
             </span>
@@ -97,7 +97,7 @@ export default function AgentCard({ agent }: { agent: Agent }) {
         </div>
 
         {/* Hover accent */}
-        <div className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 transition-transform duration-500 group-hover:scale-x-100" />
+        <div className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500 transition-transform duration-500 group-hover:scale-x-100" />
       </article>
     </Link>
   )

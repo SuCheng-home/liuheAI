@@ -23,11 +23,11 @@ export default function ComingSoonDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md overflow-hidden border-blue-100 bg-white/95 p-0 backdrop-blur-xl">
+      <DialogContent className="max-w-md overflow-hidden border-emerald-100 bg-white/95 p-0 backdrop-blur-xl">
         <div className="relative">
           {/* Gradient banner */}
-          <div className="h-24 bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500">
-            <div className="absolute left-1/2 top-12 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-2xl border-4 border-white bg-gradient-to-br from-blue-500 via-cyan-500 to-teal-500 shadow-xl shadow-blue-500/30">
+          <div className="h-24 bg-gradient-to-br from-emerald-500 via-teal-500 to-green-500">
+            <div className="absolute left-1/2 top-12 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-2xl border-4 border-white bg-gradient-to-br from-emerald-500 via-teal-500 to-green-500 shadow-xl shadow-emerald-500/30">
               <Rocket className="h-10 w-10 text-white" />
             </div>
             {/* Floating particles */}
@@ -41,11 +41,11 @@ export default function ComingSoonDialog({
 
           <div className="px-8 pb-8 pt-16 text-center">
             <DialogHeader>
-              <DialogTitle className="flex items-center justify-center gap-2 text-xl font-bold text-slate-900">
-                <Hourglass className="h-5 w-5 text-blue-500" />
+              <DialogTitle className="flex items-center justify-center gap-2 text-xl font-bold text-stone-900">
+                <Hourglass className="h-5 w-5 text-emerald-500" />
                 {title}
               </DialogTitle>
-              <DialogDescription className="mt-3 text-sm leading-relaxed text-slate-600">
+              <DialogDescription className="mt-3 text-sm leading-relaxed text-stone-600">
                 {description}
               </DialogDescription>
             </DialogHeader>
@@ -53,7 +53,7 @@ export default function ComingSoonDialog({
             <div className="mt-6 flex justify-center">
               <Button
                 onClick={() => onOpenChange(false)}
-                className="h-10 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 px-8 font-medium text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30"
+                className="h-10 bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500 px-8 font-medium text-white shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30"
               >
                 我知道了
               </Button>

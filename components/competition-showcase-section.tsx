@@ -1,27 +1,22 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
 import {
   Trophy,
-  Award,
   ArrowRight,
   Clock,
   Users,
   Sparkles,
   Building2,
-  Star,
-  Heart,
-  GraduationCap,
-  Tag as TagIcon,
+  Calendar,
+  Target,
+  Medal,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import AnimatedElement from "@/components/animated-element"
 import ComingSoonDialog from "@/components/agents/coming-soon-dialog"
-import { works } from "@/lib/works-data"
+import JasmineMark from "@/components/jasmine-mark"
 
-// 雨花台区一线赛事数据 — 第一个为已开通赛事，其余暂未开通
 type Competition = {
   id: string
   name: string
@@ -29,28 +24,35 @@ type Competition = {
   level: "省级" | "市级" | "区级"
   participants: number
   deadline: string
+  status: "报名中" | "即将开放" | "筹备中"
+  audience: string
   externalUrl?: string
+  highlight?: string
 }
 
 const FEATURED: Competition = {
-  id: "yh-maker-1",
-  name: "雨花台区第一届智能体创客大赛",
-  organizers: "雨花台区教育局 · 雨花台区教师发展中心",
+  id: "lh-jasmine-1",
+  name: "六合区第一届「茉莉杯」中小学AI智能体创客大赛",
+  organizers: "南京市六合区教育局 · 六合区教师发展中心",
   level: "区级",
   participants: 1280,
   deadline: "2026-12-20",
-  externalUrl:
-    "https://yh.nje.cn/competition/activities/detail/index?id=7433534103650304&applyCount=0",
+  status: "报名中",
+  audience: "全区中小学师生",
+  highlight:
+    "围绕学科教学、校园治理、文化传承三大主题，挑战「让茉莉花在校园绽放」的AI创意命题",
 }
 
 const OTHERS: Competition[] = [
   {
-    id: "yh-app-1",
-    name: "2026 年雨花台区中小学人工智能应用创新大赛",
-    organizers: "雨花台区教育局",
+    id: "lh-app-1",
+    name: "2026年六合区中小学人工智能应用创新大赛",
+    organizers: "南京市六合区教育局",
     level: "区级",
     participants: 2460,
     deadline: "2026-11-30",
+    status: "即将开放",
+    audience: "中小学教师",
   },
   {
     id: "nj-tech-36",
@@ -59,6 +61,8 @@ const OTHERS: Competition[] = [
     level: "市级",
     participants: 5640,
     deadline: "2026-11-15",
+    status: "筹备中",
+    audience: "中小学学生",
   },
   {
     id: "js-youth-1",
@@ -67,16 +71,22 @@ const OTHERS: Competition[] = [
     level: "省级",
     participants: 8960,
     deadline: "2026-12-25",
+    status: "筹备中",
+    audience: "青少年",
   },
 ]
 
 const LEVEL_STYLES: Record<Competition["level"], string> = {
-  省级: "bg-purple-100 text-purple-600",
-  市级: "bg-amber-100 text-amber-700",
-  区级: "bg-blue-100 text-blue-600",
+  省级: "bg-purple-100 text-purple-700",
+  市级: "bg-amber-100 text-amber-800",
+  区级: "bg-emerald-100 text-emerald-700",
 }
 
-const COMPETITION_HUB_URL = "https://yh.nje.cn/competition/home"
+const STATUS_STYLES: Record<Competition["status"], string> = {
+  报名中: "bg-emerald-100 text-emerald-700 ring-emerald-200",
+  即将开放: "bg-amber-100 text-amber-800 ring-amber-200",
+  筹备中: "bg-stone-100 text-stone-600 ring-stone-200",
+}
 
 export default function CompetitionShowcaseSection() {
   const [comingSoonOpen, setComingSoonOpen] = useState(false)
@@ -88,270 +98,189 @@ export default function CompetitionShowcaseSection() {
     setComingSoonOpen(true)
   }
 
-  const featuredWorks = works.slice(0, 4)
+  const handleFeaturedClick = (e: React.MouseEvent) => {
+    if (FEATURED.externalUrl) return
+    e.preventDefault()
+    setComingSoonName(FEATURED.name)
+    setComingSoonOpen(true)
+  }
 
   return (
     <section
-      id="competition-showcase"
-      className="relative flex min-h-screen snap-start snap-always items-center bg-gradient-to-b from-white via-orange-50/30 to-white py-10 lg:py-12"
+      id="competitions"
+      className="relative flex min-h-screen snap-start snap-always items-center overflow-hidden py-12 lg:py-16"
     >
-      {/* 背景装饰 */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-40 top-10 h-80 w-80 rounded-full bg-gradient-to-br from-orange-100/40 to-amber-100/40 blur-3xl" />
-        <div className="absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-gradient-to-br from-cyan-100/40 to-teal-100/40 blur-3xl" />
-      </div>
+      {/* 背景 */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-amber-50/40 to-white" />
+      <div className="pointer-events-none absolute -left-32 top-10 h-80 w-80 animate-soft-glow rounded-full bg-amber-300/15 blur-3xl" />
+      <div
+        className="pointer-events-none absolute -right-20 bottom-10 h-72 w-72 animate-soft-glow rounded-full bg-emerald-300/15 blur-3xl"
+        style={{ animationDelay: "1.8s" }}
+      />
 
       <div className="relative mx-auto w-full max-w-7xl px-4 lg:px-8">
-        {/* 总标题 */}
+        {/* 标题 */}
         <AnimatedElement
           variant="fade-up"
           duration={1100}
-          className="mb-6 text-center lg:mb-8"
+          className="mb-8 text-center lg:mb-10"
         >
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-orange-500/10 to-cyan-500/10 px-4 py-1.5 backdrop-blur-sm">
-            <Trophy className="h-4 w-4 text-orange-500" />
-            <span className="text-sm font-medium text-slate-700">
-              竞赛 · 作品
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-200/60 bg-amber-50/80 px-3.5 py-1">
+            <Trophy className="h-3.5 w-3.5 text-amber-700" />
+            <span className="text-xs font-medium text-amber-800">
+              板块二 · 竞赛活动
             </span>
           </div>
-          <h2 className="text-3xl font-bold text-slate-900 lg:text-4xl">
-            AI 竞赛活动与
-            <span className="bg-gradient-to-r from-orange-600 via-amber-600 to-cyan-600 bg-clip-text text-transparent">
+          <h2 className="font-serif text-3xl font-bold text-stone-900 lg:text-4xl">
+            茉莉杯AI赛事 ·
+            <span className="bg-gradient-to-r from-amber-600 via-amber-700 to-emerald-700 bg-clip-text text-transparent">
               {" "}
-              优秀作品展示
+              师生共创共赛
             </span>
           </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-stone-600 lg:text-base">
+            搭建六合区品牌化AI赛事生态，承载从教师创新到学生作品的层级化竞赛体系。
+          </p>
         </AnimatedElement>
 
-        {/* 双栏内容 */}
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
-          {/* 左栏：AI 竞赛活动 */}
-          <AnimatedElement variant="fade-up" delay={100} duration={1100}>
-            <div className="rounded-2xl border border-slate-100 bg-white/80 p-5 shadow-sm backdrop-blur-sm lg:p-6">
-              {/* 栏目头 */}
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 shadow-lg shadow-orange-500/25">
-                    <Trophy className="h-4 w-4 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-bold text-slate-900 lg:text-lg">
-                      AI 竞赛活动
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      区级 · 市级 · 省级公益赛事
-                    </p>
-                  </div>
-                </div>
-                <a
-                  href={COMPETITION_HUB_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-1 text-xs font-medium text-orange-600 hover:text-orange-700"
-                >
-                  查看更多
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                </a>
-              </div>
-
-              {/* 重点推荐赛事 */}
-              <a
-                href={FEATURED.externalUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mb-3 block overflow-hidden rounded-xl border border-orange-100 bg-gradient-to-br from-orange-50/60 to-amber-50/60 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-orange-500/10"
-              >
-                <div className="mb-2 flex flex-wrap items-center gap-1.5">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-orange-500 to-red-500 px-2 py-0.5 text-[10px] font-medium text-white shadow-sm">
-                    <Sparkles className="h-2.5 w-2.5" />
+        {/* 重点推荐赛事 */}
+        <AnimatedElement variant="fade-up" delay={100} duration={1100}>
+          <a
+            href={FEATURED.externalUrl || "#"}
+            onClick={handleFeaturedClick}
+            target={FEATURED.externalUrl ? "_blank" : undefined}
+            rel={FEATURED.externalUrl ? "noopener noreferrer" : undefined}
+            className="group mb-6 block overflow-hidden rounded-3xl border border-amber-200/60 bg-gradient-to-br from-amber-50/70 via-white to-emerald-50/50 p-6 shadow-sm transition-all duration-500 hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-2xl hover:shadow-amber-500/15 lg:p-8"
+          >
+            <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-8">
+              <div>
+                <div className="mb-3 flex flex-wrap items-center gap-1.5">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2.5 py-0.5 text-[11px] font-semibold text-white shadow-sm">
+                    <Sparkles className="h-3 w-3" />
                     重点推荐
                   </span>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${LEVEL_STYLES[FEATURED.level]}`}
+                    className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${LEVEL_STYLES[FEATURED.level]}`}
                   >
                     {FEATURED.level}
                   </span>
-                  <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700">
-                    报名中
+                  <span
+                    className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium ring-1 ${STATUS_STYLES[FEATURED.status]}`}
+                  >
+                    {FEATURED.status}
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-200">
+                    <JasmineMark variant="filled" className="h-3 w-3" />
+                    茉莉杯
                   </span>
                 </div>
-                <h4 className="mb-2 line-clamp-2 text-sm font-bold leading-snug text-slate-900 transition-colors group-hover:text-orange-600 lg:text-base">
+                <h3 className="mb-2 font-serif text-2xl font-bold leading-snug text-stone-900 transition-colors group-hover:text-amber-700 lg:text-[26px]">
                   {FEATURED.name}
-                </h4>
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-500">
-                  <span className="flex items-center gap-1 truncate">
-                    <Building2 className="h-3 w-3 shrink-0" />
-                    <span className="truncate">{FEATURED.organizers}</span>
+                </h3>
+                {FEATURED.highlight && (
+                  <p className="mb-4 text-sm leading-relaxed text-stone-600 lg:text-[15px]">
+                    {FEATURED.highlight}
+                  </p>
+                )}
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-stone-600 lg:text-sm">
+                  <span className="flex items-center gap-1.5">
+                    <Building2 className="h-3.5 w-3.5 text-emerald-600" />
+                    {FEATURED.organizers}
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
+                  <span className="flex items-center gap-1.5">
+                    <Target className="h-3.5 w-3.5 text-emerald-600" />
+                    {FEATURED.audience}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="h-3.5 w-3.5 text-amber-600" />
                     截止 {FEATURED.deadline}
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Users className="h-3 w-3" />
-                    {FEATURED.participants.toLocaleString()} 报名
+                  <span className="flex items-center gap-1.5">
+                    <Users className="h-3.5 w-3.5 text-amber-600" />
+                    {FEATURED.participants.toLocaleString()} 人意向报名
                   </span>
                 </div>
-              </a>
-
-              {/* 其它赛事列表 */}
-              <ul className="space-y-2">
-                {OTHERS.map((c) => (
-                  <li key={c.id}>
-                    <button
-                      onClick={(e) => handleOtherClick(e, c.name)}
-                      className="group flex w-full items-start gap-3 rounded-xl border border-slate-100 bg-white p-3 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-md hover:shadow-orange-500/5"
-                    >
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-orange-50 to-amber-50">
-                        <Trophy className="h-4 w-4 text-orange-500" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h4 className="line-clamp-1 text-sm font-semibold text-slate-900 transition-colors group-hover:text-orange-600">
-                          {c.name}
-                        </h4>
-                        <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-slate-500">
-                          <span
-                            className={`rounded-full px-1.5 py-0 text-[10px] font-medium ${LEVEL_STYLES[c.level]}`}
-                          >
-                            {c.level}
-                          </span>
-                          <span className="truncate">{c.organizers}</span>
-                          <span className="flex items-center gap-0.5">
-                            <Clock className="h-2.5 w-2.5" />
-                            {c.deadline}
-                          </span>
-                        </div>
-                      </div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </AnimatedElement>
-
-          {/* 右栏：AI 优秀作品 */}
-          <AnimatedElement variant="fade-up" delay={200} duration={1100}>
-            <div className="rounded-2xl border border-slate-100 bg-white/80 p-5 shadow-sm backdrop-blur-sm lg:p-6">
-              {/* 栏目头 */}
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-teal-500 shadow-lg shadow-cyan-500/25">
-                    <Award className="h-4 w-4 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-bold text-slate-900 lg:text-lg">
-                      AI 优秀作品
-                    </h3>
-                    <p className="text-xs text-slate-500">
-                      师生优秀获奖 AI 作品集
-                    </p>
-                  </div>
-                </div>
-                <Link
-                  href="/works"
-                  className="group flex items-center gap-1 text-xs font-medium text-cyan-600 hover:text-cyan-700"
-                >
-                  查看更多
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-                </Link>
               </div>
-
-              {/* 作品列表 */}
-              <div className="space-y-3">
-                {featuredWorks.map((w) => (
-                  <Link
-                    key={w.id}
-                    href={`/works/${w.id}`}
-                    className="group flex items-start gap-3 rounded-xl p-2 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-50/40"
+              <div className="flex shrink-0 items-center gap-3">
+                <div className="hidden h-20 w-px bg-stone-200 lg:block" />
+                <div className="flex flex-col items-start gap-3 lg:items-center">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 shadow-lg shadow-amber-500/30 ring-1 ring-amber-200">
+                    <Medal className="h-8 w-8 text-white" />
+                  </div>
+                  <Button
+                    size="default"
+                    className="h-11 gap-2 bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 px-5 text-sm font-medium text-white shadow-lg shadow-amber-500/30 hover:shadow-xl"
                   >
-                    <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-lg lg:h-[72px] lg:w-24">
-                      <Image
-                        src={w.cover || "/placeholder.svg"}
-                        alt={w.title}
-                        fill
-                        sizes="(max-width: 1024px) 112px, 96px"
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="mb-1 flex flex-wrap items-center gap-1">
-                        <span className="inline-flex items-center rounded-md border border-cyan-200 bg-cyan-50 px-1.5 py-0 text-[10px] font-medium text-cyan-700">
-                          {w.type}
-                        </span>
-                        {w.creator.role === "学生" ? (
-                          <span className="inline-flex items-center gap-0.5 rounded-md bg-pink-50 px-1.5 py-0 text-[10px] font-medium text-pink-600">
-                            <GraduationCap className="h-2.5 w-2.5" />
-                            学生
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-0.5 rounded-md bg-blue-50 px-1.5 py-0 text-[10px] font-medium text-blue-600">
-                            <TagIcon className="h-2.5 w-2.5" />
-                            教师
-                          </span>
-                        )}
-                      </div>
-                      <h4 className="mb-0.5 line-clamp-1 text-sm font-semibold leading-snug text-slate-900 transition-colors group-hover:text-cyan-600">
-                        {w.title}
-                      </h4>
-                      <p className="line-clamp-1 text-[11px] text-slate-500">
-                        {w.creator.name} · {w.creator.school}
-                        {w.creator.grade ? ` · ${w.creator.grade}` : ""}
-                      </p>
-                      <div className="mt-1 flex items-center gap-3 text-[11px] text-slate-500">
-                        <span className="flex items-center gap-0.5">
-                          <Star className="h-2.5 w-2.5 fill-amber-400 text-amber-400" />
-                          {w.rating.toFixed(1)}
-                        </span>
-                        <span className="flex items-center gap-0.5">
-                          <Heart className="h-2.5 w-2.5 fill-rose-400 text-rose-400" />
-                          {w.likes.toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+                    了解详情
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                  </Button>
+                </div>
               </div>
             </div>
-          </AnimatedElement>
-        </div>
-
-        {/* 底部 CTA */}
-        <AnimatedElement
-          variant="fade-up"
-          delay={400}
-          duration={1100}
-          className="mt-6 flex justify-center gap-3 lg:mt-8"
-        >
-          <a
-            href={COMPETITION_HUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              variant="outline"
-              className="h-10 gap-1.5 border-orange-200 bg-white/80 text-orange-600 backdrop-blur-sm hover:border-orange-300 hover:bg-orange-50"
-            >
-              全部赛事
-              <ArrowRight className="h-4 w-4" />
-            </Button>
           </a>
-          <Link href="/works">
-            <Button className="h-10 gap-1.5 bg-gradient-to-r from-cyan-500 to-teal-500 text-white shadow-lg shadow-cyan-500/25 hover:shadow-xl hover:shadow-cyan-500/30">
-              全部作品
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
+        </AnimatedElement>
+
+        {/* 其它赛事列表 */}
+        <AnimatedElement variant="fade-up" delay={200} duration={1100}>
+          <div className="rounded-2xl border border-stone-200/70 bg-white/80 p-5 backdrop-blur-sm lg:p-6">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="flex items-center gap-2 font-serif text-base font-bold text-stone-900 lg:text-lg">
+                <Trophy className="h-4 w-4 text-amber-600" />
+                更多赛事一览
+              </h3>
+              <span className="text-xs text-stone-500">
+                关联省 · 市 · 区三级公益赛事
+              </span>
+            </div>
+
+            <ul className="grid gap-2.5 lg:grid-cols-3 lg:gap-3">
+              {OTHERS.map((c) => (
+                <li key={c.id}>
+                  <button
+                    onClick={(e) => handleOtherClick(e, c.name)}
+                    className="group flex h-full w-full flex-col gap-2.5 rounded-xl border border-stone-200 bg-white p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-300 hover:shadow-md hover:shadow-amber-500/5"
+                  >
+                    <div className="flex items-center gap-1.5">
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${LEVEL_STYLES[c.level]}`}
+                      >
+                        {c.level}
+                      </span>
+                      <span
+                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ring-1 ${STATUS_STYLES[c.status]}`}
+                      >
+                        {c.status}
+                      </span>
+                    </div>
+                    <h4 className="line-clamp-2 text-sm font-semibold leading-snug text-stone-900 transition-colors group-hover:text-amber-700">
+                      {c.name}
+                    </h4>
+                    <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-stone-100 pt-2 text-[11px] text-stone-500">
+                      <span className="flex items-center gap-1 truncate">
+                        <Building2 className="h-3 w-3 shrink-0" />
+                        <span className="truncate">{c.organizers}</span>
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" />
+                        {c.deadline}
+                      </span>
+                    </div>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         </AnimatedElement>
       </div>
 
       <ComingSoonDialog
         open={comingSoonOpen}
         onOpenChange={setComingSoonOpen}
-        title="赛事暂未开通"
+        title="赛事报名通道筹备中"
         description={
           comingSoonName
-            ? `「${comingSoonName}」暂未在本平台开通报名通道，敬请关注后续公告。`
-            : "该赛事暂未开通，敬请期待。"
+            ? `「${comingSoonName}」的报名通道正在与主办单位对接中，敬请关注后续公告。`
+            : "该赛事报名通道暂未开通，敬请期待。"
         }
       />
     </section>

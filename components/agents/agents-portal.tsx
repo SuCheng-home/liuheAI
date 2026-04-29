@@ -1,11 +1,12 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { Search, SlidersHorizontal, Sparkles, X } from "lucide-react"
+import { Search, SlidersHorizontal, X } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import AgentCard from "@/components/agents/agent-card"
+import JasmineMark from "@/components/jasmine-mark"
 import {
   agents,
   categories,
@@ -67,40 +68,40 @@ export default function AgentsPortal() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 lg:px-8 lg:py-16">
-      {/* Header */}
+      {/* 头部 */}
       <div className="mb-10 text-center lg:mb-14">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 px-4 py-1.5 backdrop-blur-sm">
-          <Sparkles className="h-4 w-4 text-blue-500" />
-          <span className="text-sm font-medium text-blue-600">
-            雨花台区教育智能体集散中心
+        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-200/60 bg-white/70 px-4 py-1.5 shadow-sm shadow-emerald-900/5 backdrop-blur-sm">
+          <JasmineMark variant="filled" className="h-4 w-4" />
+          <span className="text-sm font-medium text-emerald-800">
+            茉莉智创 · 六合区智能体共创中心
           </span>
         </div>
-        <h1 className="mb-4 text-3xl font-bold tracking-tight text-slate-900 lg:text-5xl">
+        <h1 className="mb-4 font-serif text-3xl font-bold tracking-tight text-stone-900 lg:text-5xl">
           探索教育智能体
-          <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-teal-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-amber-600 bg-clip-text text-transparent">
             {" "}
             激活教学创新
           </span>
         </h1>
-        <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-600 lg:text-lg">
-          汇聚全区优质教育智能体资源，助力教师高效教学、学生个性化学习
+        <p className="mx-auto max-w-2xl text-base leading-relaxed text-stone-600 lg:text-lg">
+          汇聚六合区优质教育智能体资源，助力教师高效教学、学生个性化学习
         </p>
       </div>
 
       {/* Search + Sort Bar */}
-      <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-slate-200/60 bg-white/80 p-5 backdrop-blur-sm lg:flex-row lg:items-center lg:gap-6">
+      <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-stone-200/60 bg-white/80 p-5 backdrop-blur-sm lg:flex-row lg:items-center lg:gap-6">
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
           <Input
             placeholder="搜索智能体名称..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="h-11 border-slate-200 bg-white/60 pl-11 text-sm focus-visible:ring-blue-500"
+            className="h-11 border-stone-200 bg-white/60 pl-11 text-sm focus-visible:ring-emerald-500"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600"
             >
               <X className="h-4 w-4" />
             </button>
@@ -108,8 +109,8 @@ export default function AgentsPortal() {
         </div>
 
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="h-4 w-4 text-slate-400" />
-          <span className="text-sm font-medium text-slate-600">排序:</span>
+          <SlidersHorizontal className="h-4 w-4 text-stone-400" />
+          <span className="text-sm font-medium text-stone-600">排序:</span>
           <div className="flex gap-1">
             {sortOptions.map((option) => (
               <button
@@ -118,8 +119,8 @@ export default function AgentsPortal() {
                 className={cn(
                   "rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-300",
                   sortBy === option
-                    ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/20"
-                    : "text-slate-600 hover:bg-slate-100"
+                    ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20"
+                    : "text-stone-600 hover:bg-stone-100"
                 )}
               >
                 {option}
@@ -130,7 +131,7 @@ export default function AgentsPortal() {
       </div>
 
       {/* Filters */}
-      <div className="mb-6 space-y-4 rounded-2xl border border-slate-200/60 bg-white/80 p-5 backdrop-blur-sm">
+      <div className="mb-6 space-y-4 rounded-2xl border border-stone-200/60 bg-white/80 p-5 backdrop-blur-sm">
         <FilterGroup
           label="学段"
           options={stages as readonly string[]}
@@ -153,9 +154,9 @@ export default function AgentsPortal() {
 
       {/* Results Info */}
       <div className="mb-6 flex items-center justify-between">
-        <div className="text-sm text-slate-600">
+        <div className="text-sm text-stone-600">
           共找到{" "}
-          <span className="font-bold text-blue-600">
+          <span className="font-bold text-emerald-600">
             {filteredAgents.length}
           </span>{" "}
           个智能体
@@ -165,7 +166,7 @@ export default function AgentsPortal() {
             variant="ghost"
             size="sm"
             onClick={clearFilters}
-            className="h-8 gap-1.5 text-xs text-slate-500 hover:text-blue-600"
+            className="h-8 gap-1.5 text-xs text-stone-500 hover:text-emerald-600"
           >
             <X className="h-3.5 w-3.5" />
             清除筛选
@@ -181,14 +182,14 @@ export default function AgentsPortal() {
           ))}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-white/60 py-20 text-center backdrop-blur-sm">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100">
-            <Search className="h-8 w-8 text-slate-400" />
+        <div className="rounded-2xl border border-dashed border-stone-200 bg-white/60 py-20 text-center backdrop-blur-sm">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-stone-100">
+            <Search className="h-8 w-8 text-stone-400" />
           </div>
-          <h3 className="mb-2 text-lg font-semibold text-slate-700">
+          <h3 className="mb-2 text-lg font-semibold text-stone-700">
             未找到匹配的智能体
           </h3>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-stone-500">
             尝试调整筛选条件或搜索其他关键词
           </p>
         </div>
@@ -210,7 +211,7 @@ function FilterGroup({
 }) {
   return (
     <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-4">
-      <div className="w-20 flex-shrink-0 text-sm font-semibold text-slate-700">
+      <div className="w-20 flex-shrink-0 text-sm font-semibold text-stone-700">
         {label}
       </div>
       <div className="flex flex-wrap gap-2">
@@ -221,8 +222,8 @@ function FilterGroup({
             className={cn(
               "cursor-pointer border px-3 py-1 text-xs font-medium transition-all duration-300 hover:-translate-y-0.5",
               selected === option
-                ? "border-transparent bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-md shadow-blue-500/20"
-                : "border-slate-200 bg-white text-slate-600 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                ? "border-transparent bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20"
+                : "border-stone-200 bg-white text-stone-600 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-600"
             )}
           >
             {option}

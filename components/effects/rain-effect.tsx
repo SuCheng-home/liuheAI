@@ -2,6 +2,10 @@
 
 import { useEffect, useRef } from "react"
 
+/**
+ * 茉莉花瓣轻飘效果（沿用 RainEffect 命名以减少调用方改动）
+ * - 在背景层缓慢下落白色小颗粒，模拟花瓣点点意象
+ */
 export default function RainEffect() {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -9,25 +13,29 @@ export default function RainEffect() {
     const container = containerRef.current
     if (!container) return
 
-    const createRaindrop = () => {
-      const drop = document.createElement("div")
-      drop.className = "raindrop"
-      drop.style.left = `${Math.random() * 100}%`
-      drop.style.animationDuration = `${1.5 + Math.random() * 1}s`
-      drop.style.animationDelay = `${Math.random() * 2}s`
-      drop.style.opacity = `${0.1 + Math.random() * 0.3}`
-      container.appendChild(drop)
+    const createPetal = () => {
+      const petal = document.createElement("div")
+      petal.className = "jasmine-petal"
+      petal.style.left = `${Math.random() * 100}%`
+      const duration = 10 + Math.random() * 8
+      petal.style.animationDuration = `${duration}s`
+      petal.style.animationDelay = `${Math.random() * 4}s`
+      const size = 4 + Math.random() * 6
+      petal.style.width = `${size}px`
+      petal.style.height = `${size * 1.4}px`
+      petal.style.opacity = `${0.25 + Math.random() * 0.45}`
+      container.appendChild(petal)
 
       setTimeout(() => {
-        drop.remove()
-      }, 4000)
+        petal.remove()
+      }, (duration + 4) * 1000)
     }
 
     const interval = setInterval(() => {
-      if (container.children.length < 30) {
-        createRaindrop()
+      if (container.children.length < 20) {
+        createPetal()
       }
-    }, 200)
+    }, 800)
 
     return () => clearInterval(interval)
   }, [])
@@ -40,36 +48,20 @@ export default function RainEffect() {
         aria-hidden="true"
       />
       <style jsx global>{`
-        .raindrop {
+        .jasmine-petal {
           position: absolute;
           top: -20px;
-          width: 2px;
-          height: 20px;
-          background: linear-gradient(
-            to bottom,
-            transparent,
-            rgba(59, 130, 246, 0.4),
-            transparent
-          );
-          border-radius: 50%;
-          animation: rainFall linear infinite;
-        }
-
-        @keyframes rainFall {
-          0% {
-            transform: translateY(0) rotate(15deg);
-            opacity: 0;
-          }
-          10% {
-            opacity: 1;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(100vh) rotate(15deg);
-            opacity: 0;
-          }
+          background:
+            radial-gradient(
+              ellipse at 50% 35%,
+              rgba(255, 255, 255, 0.95) 0%,
+              rgba(245, 250, 240, 0.7) 60%,
+              rgba(220, 234, 219, 0.1) 100%
+            );
+          border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+          box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+          animation: petalFall linear infinite;
+          will-change: transform, opacity;
         }
       `}</style>
     </>

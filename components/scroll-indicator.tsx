@@ -81,18 +81,18 @@ export default function ScrollIndicator({
         aria-label="页面滚动指示器"
         className="pointer-events-none fixed right-3 top-1/2 z-40 hidden -translate-y-1/2 lg:flex"
       >
-        <div className="pointer-events-auto flex flex-col items-center gap-3 rounded-full border border-slate-200/70 bg-white/70 px-2 py-3 shadow-lg shadow-blue-500/5 backdrop-blur-md">
+        <div className="pointer-events-auto flex flex-col items-center gap-3 rounded-full border border-stone-200/70 bg-white/75 px-2 py-3 shadow-lg shadow-emerald-900/5 backdrop-blur-md">
           {/* 页码 */}
           <div className="flex flex-col items-center leading-none">
-            <span className="text-sm font-bold text-slate-900 tabular-nums">
+            <span className="text-sm font-bold text-stone-900 tabular-nums">
               {String(activeIndex + 1).padStart(2, "0")}
             </span>
-            <span className="text-[10px] font-medium text-slate-400 tabular-nums">
+            <span className="text-[10px] font-medium text-stone-400 tabular-nums">
               / {String(total).padStart(2, "0")}
             </span>
           </div>
 
-          <div className="h-2 w-px bg-slate-200" />
+          <div className="h-2 w-px bg-stone-200" />
 
           {/* 圆点 */}
           <nav className="flex flex-col items-center gap-2.5">
@@ -110,14 +110,14 @@ export default function ScrollIndicator({
                   className={cn(
                     "group relative flex h-2.5 w-2.5 items-center justify-center rounded-full transition-all duration-300",
                     active
-                      ? "h-2.5 w-6 bg-gradient-to-r from-blue-500 to-cyan-500 shadow-md shadow-blue-500/30"
-                      : "bg-slate-300 hover:bg-blue-400"
+                      ? "h-2.5 w-6 bg-gradient-to-r from-emerald-600 to-amber-500 shadow-md shadow-emerald-600/30"
+                      : "bg-stone-300 hover:bg-emerald-400"
                   )}
                 >
                   {/* hover 标签 */}
                   <span
                     className={cn(
-                      "pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-md bg-slate-900 px-2 py-1 text-[11px] font-medium text-white opacity-0 transition-all duration-200",
+                      "pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-md bg-stone-900 px-2 py-1 text-[11px] font-medium text-white opacity-0 transition-all duration-200",
                       hovered && "opacity-100"
                     )}
                   >
@@ -136,7 +136,7 @@ export default function ScrollIndicator({
           type="button"
           aria-label="回到顶部"
           onClick={handleBackToTop}
-          className="fixed bottom-5 right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-sky-500/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-500/35"
+          className="fixed bottom-5 right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-emerald-600 to-emerald-500 text-white shadow-lg shadow-emerald-600/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-emerald-600/40"
         >
           <ChevronUp className="h-5 w-5" />
         </button>

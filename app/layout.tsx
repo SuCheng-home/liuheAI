@@ -1,17 +1,34 @@
 import type { Metadata, Viewport } from 'next'
-import { Noto_Sans_SC } from 'next/font/google'
+import { Noto_Sans_SC, Noto_Serif_SC } from 'next/font/google'
 import './globals.css'
 
-const notoSansSC = Noto_Sans_SC({ 
+const notoSansSC = Noto_Sans_SC({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
 })
 
+const notoSerifSC = Noto_Serif_SC({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-serif",
+})
+
 export const metadata: Metadata = {
-  title: '智雨润教雨花台区AI教育资源集散中心',
-  description: '智雨润教雨花台区AI教育资源集散中心，融合人工智能与教育创新，为教师提供智能备课、精准教研、个性化学习的一站式服务平台',
-  keywords: ['雨花台区', '智雨润教', 'AI教育', '人工智能教育资源', '集散中心', '教师研训', '智能备课'],
+  title: '茉莉智创 · 六合区AI教育智能体共创平台',
+  description:
+    '茉莉智创 — 南京市六合区AI教育智能体共创平台。汇聚区域优质教育智能体，搭建师生共创、共享、共赛的人工智能教育生态。',
+  keywords: [
+    '六合区',
+    '茉莉智创',
+    '茉莉慧学',
+    'AI 教育',
+    '人工智能',
+    '智能体共创',
+    '智能体中心',
+    '竞赛活动',
+    '南京市六合区教育局',
+  ],
   icons: {
     icon: [
       {
@@ -32,7 +49,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#3b82f6',
+  themeColor: '#3f8a5e',
   width: 'device-width',
   initialScale: 1,
 }
@@ -43,8 +60,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="zh-CN">
-      <body className={`${notoSansSC.variable} font-sans antialiased`}>
+    <html lang="zh-CN" className="bg-background">
+      <body
+        className={`${notoSansSC.variable} ${notoSerifSC.variable} font-sans antialiased`}
+      >
         {children}
       </body>
     </html>

@@ -26,9 +26,9 @@ import { cn } from "@/lib/utils"
 const statusBadgeStyles: Record<UploadedAgent["status"], string> = {
   待审批: "border-amber-200 bg-amber-50 text-amber-700",
   审批被退回: "border-red-200 bg-red-50 text-red-700",
-  审批通过: "border-blue-200 bg-blue-50 text-blue-700",
+  审批通过: "border-emerald-200 bg-emerald-50 text-emerald-700",
   已上架: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  已下架: "border-slate-200 bg-slate-50 text-slate-600",
+  已下架: "border-stone-200 bg-stone-50 text-stone-600",
 }
 
 export default function UploadedAgentDialog({
@@ -49,7 +49,7 @@ export default function UploadedAgentDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto bg-white/95 backdrop-blur-xl">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-3 text-xl font-bold text-slate-900">
+          <DialogTitle className="flex items-center gap-3 text-xl font-bold text-stone-900">
             智能体详情
             <Badge
               variant="outline"
@@ -58,7 +58,7 @@ export default function UploadedAgentDialog({
               {agent.status}
             </Badge>
           </DialogTitle>
-          <DialogDescription className="text-sm text-slate-500">
+          <DialogDescription className="text-sm text-stone-500">
             查看您提交的智能体详细信息与审核状态
           </DialogDescription>
         </DialogHeader>
@@ -101,7 +101,7 @@ export default function UploadedAgentDialog({
         <div className="space-y-6 py-2">
           {/* Basic info */}
           <div className="flex gap-5">
-            <div className="relative h-28 w-28 flex-shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-blue-100 to-cyan-100">
+            <div className="relative h-28 w-28 flex-shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100">
               <Image
                 src={agent.cover || "/placeholder.svg"}
                 alt={agent.title}
@@ -111,23 +111,23 @@ export default function UploadedAgentDialog({
               />
             </div>
             <div className="flex-1">
-              <h3 className="mb-1 text-xl font-bold text-slate-900">
+              <h3 className="mb-1 text-xl font-bold text-stone-900">
                 {agent.title}
               </h3>
-              <p className="mb-3 text-sm text-slate-500">{agent.subtitle}</p>
+              <p className="mb-3 text-sm text-stone-500">{agent.subtitle}</p>
               <div className="flex flex-wrap items-center gap-2">
-                <Badge className="border-0 bg-gradient-to-r from-blue-500 to-cyan-500 text-xs text-white">
+                <Badge className="border-0 bg-gradient-to-r from-emerald-500 to-teal-500 text-xs text-white">
                   {agent.stage}
                 </Badge>
                 <Badge
                   variant="outline"
-                  className="border-slate-200 bg-slate-50 text-xs text-slate-600"
+                  className="border-stone-200 bg-stone-50 text-xs text-stone-600"
                 >
                   {agent.audience}
                 </Badge>
                 <Badge
                   variant="outline"
-                  className="border-slate-200 bg-slate-50 text-xs text-slate-600"
+                  className="border-stone-200 bg-stone-50 text-xs text-stone-600"
                 >
                   {agent.category}
                 </Badge>
@@ -137,19 +137,19 @@ export default function UploadedAgentDialog({
 
           {/* Description */}
           <div>
-            <div className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-slate-700">
-              <FileText className="h-4 w-4 text-blue-500" />
+            <div className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-stone-700">
+              <FileText className="h-4 w-4 text-emerald-500" />
               智能体描述
             </div>
-            <p className="rounded-xl bg-slate-50/80 p-4 text-sm leading-relaxed text-slate-600">
+            <p className="rounded-xl bg-stone-50/80 p-4 text-sm leading-relaxed text-stone-600">
               {agent.description}
             </p>
           </div>
 
           {/* Tags */}
           <div>
-            <div className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-slate-700">
-              <Tag className="h-4 w-4 text-blue-500" />
+            <div className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-stone-700">
+              <Tag className="h-4 w-4 text-emerald-500" />
               特性标签
             </div>
             <div className="flex flex-wrap gap-2">
@@ -157,7 +157,7 @@ export default function UploadedAgentDialog({
                 <Badge
                   key={tag}
                   variant="outline"
-                  className="border-blue-100 bg-blue-50/60 text-xs font-medium text-blue-600"
+                  className="border-emerald-100 bg-emerald-50/60 text-xs font-medium text-emerald-600"
                 >
                   {tag}
                 </Badge>
@@ -192,7 +192,7 @@ export default function UploadedAgentDialog({
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-end gap-3 border-t border-slate-100 pt-4">
+        <div className="flex items-center justify-end gap-3 border-t border-stone-100 pt-4">
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
@@ -201,7 +201,7 @@ export default function UploadedAgentDialog({
             关闭
           </Button>
           {(isPending || isRejected) && (
-            <Button className="h-10 gap-2 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 px-5 font-medium text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30">
+            <Button className="h-10 gap-2 bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500 px-5 font-medium text-white shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30">
               {isRejected ? "修改并重新提交" : "编辑提交"}
             </Button>
           )}
@@ -223,15 +223,15 @@ function MetaCard({
   accent?: "amber"
 }) {
   return (
-    <div className="rounded-xl border border-slate-100 bg-white/60 p-3">
-      <div className="mb-1 flex items-center gap-1.5 text-xs text-slate-500">
+    <div className="rounded-xl border border-stone-100 bg-white/60 p-3">
+      <div className="mb-1 flex items-center gap-1.5 text-xs text-stone-500">
         {icon}
         {label}
       </div>
       <div
         className={cn(
           "text-sm font-bold",
-          accent === "amber" ? "text-amber-600" : "text-slate-800"
+          accent === "amber" ? "text-amber-600" : "text-stone-800"
         )}
       >
         {value}

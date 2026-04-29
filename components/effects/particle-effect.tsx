@@ -2,6 +2,9 @@
 
 import { useEffect, useRef } from "react"
 
+/**
+ * 背景星点连线 — 使用茉莉叶绿色调
+ */
 export default function ParticleEffect() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -29,15 +32,15 @@ export default function ParticleEffect() {
 
     const createParticles = () => {
       particles = []
-      const particleCount = Math.floor((canvas.width * canvas.height) / 15000)
+      const particleCount = Math.floor((canvas.width * canvas.height) / 18000)
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          size: Math.random() * 2 + 1,
-          opacity: Math.random() * 0.5 + 0.1,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          size: Math.random() * 1.6 + 0.8,
+          opacity: Math.random() * 0.45 + 0.1,
         })
       }
     }
@@ -56,22 +59,22 @@ export default function ParticleEffect() {
 
         ctx.beginPath()
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(59, 130, 246, ${particle.opacity})`
+        ctx.fillStyle = `rgba(63, 138, 94, ${particle.opacity})`
         ctx.fill()
       })
 
-      // Draw connections
+      // 连线
       particles.forEach((p1, i) => {
         particles.slice(i + 1).forEach((p2) => {
           const dx = p1.x - p2.x
           const dy = p1.y - p2.y
           const distance = Math.sqrt(dx * dx + dy * dy)
 
-          if (distance < 100) {
+          if (distance < 110) {
             ctx.beginPath()
             ctx.moveTo(p1.x, p1.y)
             ctx.lineTo(p2.x, p2.y)
-            ctx.strokeStyle = `rgba(59, 130, 246, ${0.1 * (1 - distance / 100)})`
+            ctx.strokeStyle = `rgba(63, 138, 94, ${0.08 * (1 - distance / 110)})`
             ctx.lineWidth = 0.5
             ctx.stroke()
           }
@@ -85,14 +88,15 @@ export default function ParticleEffect() {
     createParticles()
     animate()
 
-    window.addEventListener("resize", () => {
+    const onResize = () => {
       resize()
       createParticles()
-    })
+    }
+    window.addEventListener("resize", onResize)
 
     return () => {
       cancelAnimationFrame(animationId)
-      window.removeEventListener("resize", resize)
+      window.removeEventListener("resize", onResize)
     }
   }, [])
 
